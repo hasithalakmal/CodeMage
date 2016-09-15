@@ -1,0 +1,31 @@
+<pageheader pagename="Button" subtitle="Bootstrap UI Elements"></pageheader>
+
+<div class="conter-wrapper">                
+   <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-info" >
+					<div class="panel-heading">
+						<h3 class="panel-title">Create Data Base </h3>
+					</div>
+					<div class="panel-body">
+						<form ng-submit="submit()">
+							<div class="form-group">
+								<label for="exampleInputEmail1">DB Name</label>
+								<input 
+									type="text" 
+									class="form-control" 
+									id="exampleInputEmail1" 
+									placeholder="Data Base Name"
+									ng-model="databasename"
+								>
+							</div>
+							 <pre>{{list}}</pre>
+							<button  type="submit" class="btn btn-default">Submit</button>
+						</form>
+					</div>
+			</div>
+			
+        </div>
+    </div>
+</div>
+
