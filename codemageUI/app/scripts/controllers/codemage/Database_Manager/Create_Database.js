@@ -11,10 +11,10 @@ angular.module('dashyAngular').controller('Create_Database', function ($scope) {
 	$scope.databasename = '';
 	console.log($scope.databasename);
 
-	 $scope.list = '';
+	 $scope.query = '';
      $scope.submit = function() {
         
-          $scope.list = ('CREATE DATABASE '+ $scope.databasename + ' ;');
+          $scope.query = ('CREATE DATABASE '+ $scope.databasename + ' ;');
         
       };
 	
