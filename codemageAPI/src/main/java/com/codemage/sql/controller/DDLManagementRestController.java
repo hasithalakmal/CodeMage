@@ -5,8 +5,8 @@
  */
 package com.codemage.sql.controller;
 
-import com.codemage.sql.ddl.DatabaseDDL;
-import com.codemage.sql.ddl.TableDDL;
+import com.codemage.sql.query.DatabaseDDL;
+import com.codemage.sql.query.TableDDL;
 import com.codemage.sql.model.Databases;
 import com.codemage.sql.runner.DatabaseRunner;
 import com.codemage.sql.service.DatabasesService;
