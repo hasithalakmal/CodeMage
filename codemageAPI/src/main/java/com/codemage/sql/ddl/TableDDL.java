@@ -27,4 +27,6 @@ public interface TableDDL {
 
     String dropTable(String tableName);
     
+    String createFK(String FK_JSON);
+    
 }

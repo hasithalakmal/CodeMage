@@ -6,10 +6,13 @@
 package com.codemage.sql.controller;
 
 import com.codemage.sql.ddl.DatabaseDDL;
+import com.codemage.sql.ddl.TableDDL;
 import com.codemage.sql.model.Databases;
 import com.codemage.sql.runner.DatabaseRunner;
 import com.codemage.sql.service.DatabasesService;
+import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +32,9 @@ public class DDLManagementRestController {
     @Autowired
     DatabaseDDL databaseDDL;
 
+     @Autowired
+    TableDDL tableDDL;
+     
     @Autowired
     DatabasesService databasesService;
 
@@ -58,5 +64,51 @@ public class DDLManagementRestController {
         List<Databases> dbs = databasesService.findAllDatabasess(userID);
         return dbs;
     }
+    
+    @RequestMapping(value = "tables/{dbName}", method = RequestMethod.GET, produces = "application/json")
+    public ArrayList selectAllTables(@PathVariable String dbName) {
+        System.out.println(dbName);
+        ArrayList dbs = databaseRunner.getTables(dbName);
+        return dbs;
+    }
+    
+    @RequestMapping(value = "export/{dbName}", method = RequestMethod.GET, produces = "application/json")
+    public String exportDatabase(@PathVariable String dbName) {
+         databaseRunner.exportSQL(dbName);
+        return "success";
+    }
 
+    
+    @RequestMapping(value = "table", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public String createTable(@RequestBody String tableJSON) {
+        JSONObject jsonObj = new JSONObject(tableJSON);
+        String dbName = jsonObj.getString("db_name");
+        String table = jsonObj.getJSONObject("table_detail").toString();
+        String query = tableDDL.createTable(table);
+        databaseRunner.createTable(query, dbName);
+        query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\"}";
+        return query;
+    }
+    
+    @RequestMapping(value = "table-fk", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public String addFK(@RequestBody String tableJSON) {
+        JSONObject jsonObj = new JSONObject(tableJSON);
+        String dbName = jsonObj.getString("db_name");
+        String fk_details = jsonObj.getJSONObject("fk_details").toString();
+        String query = tableDDL.createFK(fk_details);
+        databaseRunner.createTable(query, dbName);
+        query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\"}";
+        return query;
+    }
+    
+    @RequestMapping(value = "table/{dbName}/{tableName}", method = RequestMethod.DELETE, consumes = "application/json", produces = "application/json")
+    public String deleteTable(@PathVariable String dbName, @PathVariable String tableName) {
+        System.out.println(dbName);
+        System.out.println(tableName);
+        String query = tableDDL.dropTable(tableName);
+        System.out.println(query);
+        databaseRunner.dropTable(tableName, dbName);
+        query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\"}";
+        return query;
+    }
 }

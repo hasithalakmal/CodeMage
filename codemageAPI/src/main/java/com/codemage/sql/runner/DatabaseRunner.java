@@ -5,6 +5,8 @@
  */
 package com.codemage.sql.runner;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Hasitha Lakmal
@@ -17,4 +19,14 @@ public interface DatabaseRunner {
 
     String useDatabase(String dbName);
     
+    ArrayList getTables(String dbName);
+    
+    void exportSQL(String dbName);
+    
+    void createTable(String query,String dbName);
+    
+    void dropTable(String tableName,String dbName);
+    
+    void addFK(String query,String dbName);
+          
 }

@@ -152,9 +152,8 @@ public class TableDDLImpl implements TableDDL {
         JSONObject jason = new JSONObject(ddlJSON);
         String db_name = jason.get("db_name").toString();
 
-       // ddlQuery = ddlQuery + databaseDDLImpl.createDatabase(db_name) + "\n\n";
-       // ddlQuery = ddlQuery + databaseDDLImpl.useDatabase(db_name) + "\n\n";
-
+        // ddlQuery = ddlQuery + databaseDDLImpl.createDatabase(db_name) + "\n\n";
+        // ddlQuery = ddlQuery + databaseDDLImpl.useDatabase(db_name) + "\n\n";
         JSONArray tables = jason.getJSONArray("tables");
 
         for (int i = 0; i < tables.length(); i++) {
@@ -166,16 +165,32 @@ public class TableDDLImpl implements TableDDL {
 
             JSONObject keyObj = forign_keys.getJSONObject(i);
             String fk_name = keyObj.getString("fk_name");
-            String base_table = keyObj.getString("base_table"); 
-            String bt_feild_name = keyObj.getString("bt_feild_name"); 
-            String reference_table = keyObj.getString("reference_table"); 
-            String rt_feild_name = keyObj.getString("rt_feild_name"); 
+            String base_table = keyObj.getString("base_table");
+            String bt_feild_name = keyObj.getString("bt_feild_name");
+            String reference_table = keyObj.getString("reference_table");
+            String rt_feild_name = keyObj.getString("rt_feild_name");
             String onDeleteAction = keyObj.getString("on_delete");
             String onUpdteAction = keyObj.getString("on_update");
-            
-            
-            ddlQuery = ddlQuery + this.addForeignKey(fk_name, base_table, bt_feild_name, reference_table, rt_feild_name, onDeleteAction, onUpdteAction)+ "\n\n";
+
+            ddlQuery = ddlQuery + this.addForeignKey(fk_name, base_table, bt_feild_name, reference_table, rt_feild_name, onDeleteAction, onUpdteAction) + "\n\n";
         }
+
+        return ddlQuery;
+    }
+
+    public String createFK(String FK_JSON) {
+        String ddlQuery = "";
+        JSONObject keyObj = new JSONObject(FK_JSON);
+
+        String fk_name = keyObj.getString("fk_name");
+        String base_table = keyObj.getString("base_table");
+        String bt_feild_name = keyObj.getString("bt_feild_name");
+        String reference_table = keyObj.getString("reference_table");
+        String rt_feild_name = keyObj.getString("rt_feild_name");
+        String onDeleteAction = keyObj.getString("on_delete");
+        String onUpdteAction = keyObj.getString("on_update");
+
+        ddlQuery = ddlQuery + this.addForeignKey(fk_name, base_table, bt_feild_name, reference_table, rt_feild_name, onDeleteAction, onUpdteAction) + "\n\n";
 
         return ddlQuery;
     }
