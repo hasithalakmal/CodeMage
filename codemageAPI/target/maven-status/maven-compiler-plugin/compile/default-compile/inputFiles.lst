@@ -8,6 +8,7 @@ E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\con
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\configuration\AppInitializer.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\runner\DMLQueryRunnerImpl.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\configuration\AppConfig.java
+E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\javacode\DMLJava.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\controller\DDLManagementRestController.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\query\DMLQueries.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\model\Databases.java
@@ -16,9 +17,11 @@ E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\que
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\query\TableDDL.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\query\DMLQueriesImpl.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\dao\DatabasesDaoImpl.java
+E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\javacode\CodeMageExample.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\query\DatabaseDDLImpl.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\configuration\HibernateConfiguration.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\service\DatabasesServiceImpl.java
+E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\javacode\DMLJavaImpl.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\runner\DMLQueryRunner.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\aspect\LogingAspect.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\service\DatabasesService.java

@@ -2,6 +2,7 @@ com\codemage\sql\dao\AbstractDao.class
 com\codemage\sql\runner\DMLQueryRunner.class
 com\codemage\sql\util\PasswordHasher.class
 com\codemage\sql\aspect\LogingAspect.class
+com\codemage\sql\javacode\CodeMageExample.class
 com\codemage\sql\controller\DDLManagementRestController.class
 com\codemage\sql\query\TableDDL.class
 com\codemage\sql\configuration\CORSFilter.class
@@ -19,7 +20,9 @@ com\codemage\sql\runner\DatabaseRunner.class
 com\codemage\sql\configuration\HibernateConfiguration.class
 com\codemage\sql\dao\DatabasesDaoImpl.class
 com\codemage\sql\query\TableDDLImpl.class
+com\codemage\sql\javacode\DMLJava.class
 com\codemage\sql\runner\DMLQueryRunnerImpl.class
 com\codemage\sql\controller\DMLManagementRestController.class
 com\codemage\sql\configuration\AppConfig.class
 com\codemage\sql\query\DMLQueries.class
+com\codemage\sql\javacode\DMLJavaImpl.class
