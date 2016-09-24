@@ -17,6 +17,6 @@ public interface DMLQueryRunner {
     
     void updateData(String dbName, String query);
     
-    void selectData(String dbName, String query);
+    void deleteData(String dbName, String query);
           
 }

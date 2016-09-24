@@ -36,6 +36,7 @@ public class DMLManagementRestController {
         String inser_data = jsonObj.getJSONObject("inser_data").toString();
         String query = DMLQueries.InsertData(inser_data);
         DMLQueryRunner.insertData(dbName, query);
+        query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\"}";
         return query;
     }
 
@@ -47,6 +48,18 @@ public class DMLManagementRestController {
         String update_data = jsonObj.getJSONObject("update_data").toString();
         String query = DMLQueries.UpdateData(update_data);
         DMLQueryRunner.updateData(dbName, query);
+        query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\"}";
+        return query;
+    }
+    
+    @RequestMapping(value = "delete", method = RequestMethod.DELETE, consumes ="application/json", produces = "application/json")
+    public String deletedata(@RequestBody String JSON) {
+        JSONObject jsonObj = new JSONObject(JSON);
+        String dbName = jsonObj.getString("db_name");
+        String delete_data = jsonObj.getJSONObject("delete_data").toString();
+        String query = DMLQueries.DeleteData(delete_data);
+        DMLQueryRunner.deleteData(dbName, query);
+        query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\"}";
         return query;
     }
     

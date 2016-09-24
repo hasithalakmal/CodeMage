@@ -79,9 +79,9 @@ public class DMLQueriesImpl implements DMLQueries {
             }
 
             if (update_feilds.length() - 1 == i) {
-                updateQuery = updateQuery + up_fld.getString("feild_name")+" = "  + val + " WHERE ";
+                updateQuery = updateQuery + up_fld.getString("feild_name") + " = " + val + " WHERE ";
             } else {
-                updateQuery = updateQuery + up_fld.getString("feild_name")+" = " + val + " , ";
+                updateQuery = updateQuery + up_fld.getString("feild_name") + " = " + val + " , ";
             }
         }
 
@@ -101,7 +101,23 @@ public class DMLQueriesImpl implements DMLQueries {
 
     @Override
     public String DeleteData(String DeleteJSON) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String deleteQuery = "DELETE FROM ";
+
+        JSONObject jsonObj = new JSONObject(DeleteJSON);
+        String table_name = jsonObj.getString("table_name");
+
+        deleteQuery = deleteQuery + table_name + " WHERE ";
+
+        JSONObject condition = jsonObj.getJSONObject("condition");
+        if (condition.getString("data_type").equals("varchar(45)") || condition.getString("data_type").equals("Date")) {
+            String val = "'" + condition.getString("value") + "'";
+            deleteQuery = deleteQuery + condition.getString("base_feild") + " = " + val + " ; ";
+        } else {
+            int val = condition.getInt("value");
+            deleteQuery = deleteQuery + condition.getString("base_feild") + " = " + val + " ; ";
+        }
+
+        return deleteQuery;
     }
 
 }
