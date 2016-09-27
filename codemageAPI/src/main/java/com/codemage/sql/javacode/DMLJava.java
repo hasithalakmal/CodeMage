@@ -11,6 +11,8 @@ package com.codemage.sql.javacode;
  */
 public interface DMLJava {
 
+    String SelectData(String Query, String dbName);
+    
     String InsertData(String Query, String dbName);
 
     String UpdateData(String Query, String dbName);

@@ -41,7 +41,7 @@ public class DMLQueriesImpl implements DMLQueries {
 
         for (int i = 0; i < data_types.length(); i++) {
             String val = "";
-            if (data_types.getString(i).equals("varchar(45)") || data_types.getString(i).equals("Date")) {
+            if (data_types.getString(i).equals("varchar(45)")||data_types.getString(i).equals("VARCHAR")  || data_types.getString(i).equals("Date")) {
                 val = "'" + data_value.getString(i) + "'";
             } else {
                 val = data_value.getString(i);

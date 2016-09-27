@@ -34,10 +34,22 @@ public class CodeMageExample {
             System.out.println("Inserting records into the table...");
             stmt = conn.createStatement();
 
-            String sql = "INSERT INTO Registration "
-                    + "VALUES (100, 'Zara', 'Ali', 18)";
-            stmt.executeUpdate(sql);
-            System.out.println("Inserted records into the table...");
+            String sql = "Query";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+
+            /* Iterate through the data in the result set and display it. */
+            while (rs.next()) {
+                /*Print one row*/          
+                for (int i = 1; i <= columnsNumber; i++) {
+                    /*Print one element of a row*/
+                    System.out.print(rs.getString(i) + " "); 
+                }
+                /*Move to the next line to print the next row.  */
+                System.out.println();
+            }
 
         } catch (SQLException | ClassNotFoundException se) {
         } finally {

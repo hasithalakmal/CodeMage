@@ -21,6 +21,8 @@ public interface DatabaseRunner {
     
     ArrayList getTables(String dbName);
     
+    ArrayList getFeilds(String dbName, String tblName);
+    
     void exportSQL(String dbName);
     
     void createTable(String query,String dbName);
@@ -28,5 +30,7 @@ public interface DatabaseRunner {
     void dropTable(String tableName,String dbName);
     
     void addFK(String query,String dbName);
+    
+     ArrayList selectDataTypes(String dbName, String tblName);
           
 }

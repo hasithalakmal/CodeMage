@@ -10,6 +10,7 @@ import com.codemage.sql.query.TableDDL;
 import com.codemage.sql.model.Databases;
 import com.codemage.sql.runner.DatabaseRunner;
 import com.codemage.sql.service.DatabasesService;
+import com.codemage.sql.util.JsonStringGenarator;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
@@ -40,6 +41,9 @@ public class DDLManagementRestController {
 
     @Autowired
     DatabaseRunner databaseRunner;
+    
+    @Autowired
+    JsonStringGenarator jsonStringGenarator;
 
     @RequestMapping(value = "database", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public String createDatabases(@RequestBody Databases db) {
@@ -69,7 +73,9 @@ public class DDLManagementRestController {
     public ArrayList selectAllTables(@PathVariable String dbName) {
         System.out.println(dbName);
         ArrayList dbs = databaseRunner.getTables(dbName);
-        return dbs;
+       // String query = "{\"msg\":\"success\",\"err\":\"false\",\"tables\":" + dbs + "}";
+       // return query;
+       return dbs;
     }
     
     @RequestMapping(value = "export/{dbName}", method = RequestMethod.GET, produces = "application/json")
@@ -86,6 +92,7 @@ public class DDLManagementRestController {
         String table = jsonObj.getJSONObject("table_detail").toString();
         String query = tableDDL.createTable(table);
         databaseRunner.createTable(query, dbName);
+        query = jsonStringGenarator.chanageToJSON(query);
         query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\"}";
         return query;
     }
@@ -97,18 +104,31 @@ public class DDLManagementRestController {
         String fk_details = jsonObj.getJSONObject("fk_details").toString();
         String query = tableDDL.createFK(fk_details);
         databaseRunner.createTable(query, dbName);
+        query = jsonStringGenarator.chanageToJSON(query);
         query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\"}";
         return query;
     }
     
-    @RequestMapping(value = "table/{dbName}/{tableName}", method = RequestMethod.DELETE, consumes = "application/json", produces = "application/json")
+    @RequestMapping(value = "table/{dbName}/{tableName}", method = RequestMethod.DELETE,  produces = "application/json")
     public String deleteTable(@PathVariable String dbName, @PathVariable String tableName) {
-        System.out.println(dbName);
         System.out.println(tableName);
         String query = tableDDL.dropTable(tableName);
         System.out.println(query);
         databaseRunner.dropTable(tableName, dbName);
+        query = jsonStringGenarator.chanageToJSON(query);
         query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\"}";
+        return query;
+    }
+    
+    @RequestMapping(value = "colmns/{dbName}/{tableName}", method = RequestMethod.GET,  produces = "application/json")
+    public ArrayList selectColmns(@PathVariable String dbName, @PathVariable String tableName) {
+        ArrayList query = databaseRunner.getFeilds(dbName, tableName);
+        return query;
+    }
+    
+    @RequestMapping(value = "colmn-types/{dbName}/{tableName}", method = RequestMethod.GET,  produces = "application/json")
+    public ArrayList selectColmnTypes(@PathVariable String dbName, @PathVariable String tableName) {
+        ArrayList query = databaseRunner.selectDataTypes(dbName, tableName);
         return query;
     }
 }

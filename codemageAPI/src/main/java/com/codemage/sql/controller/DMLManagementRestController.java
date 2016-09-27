@@ -8,6 +8,7 @@ package com.codemage.sql.controller;
 import com.codemage.sql.javacode.DMLJava;
 import com.codemage.sql.query.DMLQueries;
 import com.codemage.sql.runner.DMLQueryRunner;
+import com.codemage.sql.util.JsonStringGenarator;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,16 +33,23 @@ public class DMLManagementRestController {
 
     @Autowired
     DMLJava DMLJava;
+    
+     @Autowired
+    JsonStringGenarator jsonStringGenarator;
 
     @RequestMapping(value = "insert", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public String insertData(@RequestBody String JSON) {
+        System.out.println(JSON);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         JSONObject jsonObj = new JSONObject(JSON);
         String dbName = jsonObj.getString("db_name");
         String inser_data = jsonObj.getJSONObject("inser_data").toString();
         String query = DMLQueries.InsertData(inser_data);
+        query = jsonStringGenarator.chanageToJSON(query);
         DMLQueryRunner.insertData(dbName, query);
         String javaCode = DMLJava.InsertData(query, dbName);
-        query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\", \" java_code\":\"" + javaCode + "\"}";
+        javaCode = jsonStringGenarator.javaToJSON(javaCode);
+        query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\", \"java_code\":\"" + javaCode + "\"}";
         return query;
     }
 

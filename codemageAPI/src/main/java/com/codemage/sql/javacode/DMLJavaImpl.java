@@ -5,11 +5,6 @@
  */
 package com.codemage.sql.javacode;
 
-import com.codemage.sql.query.*;
-import static javax.management.Query.value;
-import static javax.management.Query.value;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 /**
@@ -190,6 +185,76 @@ public class DMLJavaImpl implements DMLJava {
                 + "    }\n"
                 + "}";
 
+        return javaCode;
+    }
+
+    @Override
+    public String SelectData(String Query, String dbName) {
+        String javaCode = "/*STEP 1. Import required packages*/\n"
+                + "import java.sql.*;\n"
+                + "\n"
+                + "public class CodeMageExample {\n"
+                + "\n"
+                + "    /* JDBC driver name and database URL */\n"
+                + "    static final String JDBC_DRIVER = \"com.mysql.jdbc.Driver\";\n"
+                + "    static final String DB_URL = \"jdbc:mysql://localhost/"+dbName+"\";\n"
+                + "\n"
+                + "    /*  Change Your Database credentials */\n"
+                + "    static final String USER = \"username\";\n"
+                + "    static final String PASS = \"password\";\n"
+                + "\n"
+                + "    public static void main(String[] args) {\n"
+                + "        Connection conn = null;\n"
+                + "        Statement stmt = null;\n"
+                + "        try {\n"
+                + "            /*STEP 2: Register JDBC driver */\n"
+                + "            Class.forName(\"com.mysql.jdbc.Driver\");\n"
+                + "\n"
+                + "            /* STEP 3: Open a connection */\n"
+                + "            System.out.println(\"Connecting to a selected database...\");\n"
+                + "            conn = DriverManager.getConnection(DB_URL, USER, PASS);\n"
+                + "            System.out.println(\"Connected database successfully...\");\n"
+                + "\n"
+                + "            /* STEP 4: Execute a query */\n"
+                + "            System.out.println(\"Inserting records into the table...\");\n"
+                + "            stmt = conn.createStatement();\n"
+                + "\n"
+                + "            String sql = \""+Query+"\";\n"
+                + "            ResultSet rs = stmt.executeQuery(sql);\n"
+                + "\n"
+                + "            ResultSetMetaData rsmd = rs.getMetaData();\n"
+                + "            int columnsNumber = rsmd.getColumnCount();\n"
+                + "\n"
+                + "            /* Iterate through the data in the result set and display it. */\n"
+                + "            while (rs.next()) {\n"
+                + "                /*Print one row*/          \n"
+                + "                for (int i = 1; i <= columnsNumber; i++) {\n"
+                + "                    /*Print one element of a row*/\n"
+                + "                    System.out.print(rs.getString(i) + \" \"); \n"
+                + "                }\n"
+                + "                /*Move to the next line to print the next row.  */\n"
+                + "                System.out.println();\n"
+                + "            }\n"
+                + "\n"
+                + "        } catch (SQLException | ClassNotFoundException se) {\n"
+                + "        } finally {\n"
+                + "            /* finally block used to close resources */\n"
+                + "            try {\n"
+                + "                if (stmt != null) {\n"
+                + "                    conn.close();\n"
+                + "                }\n"
+                + "            } catch (SQLException se) {\n"
+                + "            }\n"
+                + "            try {\n"
+                + "                if (conn != null) {\n"
+                + "                    conn.close();\n"
+                + "                }\n"
+                + "            } catch (SQLException se) {\n"
+                + "            }\n"
+                + "        }\n"
+                + "        System.out.println(\"Goodbye!\");\n"
+                + "    }\n"
+                + "}";
         return javaCode;
     }
 
