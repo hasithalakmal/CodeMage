@@ -13,10 +13,12 @@ import java.util.ArrayList;
  */
 public interface DMLQueryRunner {
 
-    void insertData(String dbName, String query);
+    String insertData(String dbName, String query);
     
     void updateData(String dbName, String query);
     
     void deleteData(String dbName, String query);
+    
+    String getDataFromTable(String dbName, String query);
           
 }

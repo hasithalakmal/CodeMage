@@ -8,53 +8,54 @@
  * Controller of dashyAngular
  */
 angular.module('dashyAngular').controller('Create_Table', function ($scope, $filter, $http) {
-$scope.users = [
-    {id: 1, name: 'awesome user1', status: 2, group: 4, groupName: 'admin'},
-    {id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip'},
-    {id: 3, name: 'awesome user3', status: 2, group: null}
+   $scope.users = []; 
+
+   $scope.query = "Waiting For Query...";
+  $scope.datatype = [
+    {value: 'varchar(45)', text: 'String'},
+    {value: 'INT(11)', text: 'Integer'},
+	{value: 'Double', text: 'Double'},
+	{value: 'Float', text: 'Float'},
+    {value: 'Date', text: 'Date'}
   ]; 
 
-  $scope.statuses = [
-    {value: 1, text: 'status1'},
-    {value: 2, text: 'status2'},
-    {value: 3, text: 'status3'},
-    {value: 4, text: 'status4'}
-  ]; 
+  $scope.database_names_select ="";
 
-  $scope.groups = [];
-  $scope.loadGroups = function() {
-    return $scope.groups.length ? null : $http.get('/groups').success(function(data) {
-      $scope.groups = data;
-    });
-  };
+  $scope.init  = function() {
+		$http({
+		  method: 'GET',
+		  url: 'http://localhost:8084/CodeMage/database/1'
+		}).then(function successCallback(response) {
+			var dbs = [];
+			var i = 0;
+			for(i=0;i<response.data.length;i++){
+				dbs[i] = response.data[i].user_dbname;
+			}
+			$scope.database_names_select = dbs;
+		}, function errorCallback(response) {
+			swal(
+			  'error!',
+			  'something wrong!',
+			  'error'
+			)
+		});
+    };
+	
+	
 
-  $scope.showGroup = function(user) {
-    if(user.group && $scope.groups.length) {
-      var selected = $filter('filter')($scope.groups, {id: user.group});
-      return selected.length ? selected[0].text : 'Not set';
-    } else {
-      return user.groupName || 'Not set';
-    }
-  };
-
-  $scope.showStatus = function(user) {
+  $scope.showDataTypes = function(user) {
     var selected = [];
-    if(user.status) {
-      selected = $filter('filter')($scope.statuses, {value: user.status});
+    if(user.datatype) {
+      selected = $filter('filter')($scope.datatype, {value: user.datatype});
     }
     return selected.length ? selected[0].text : 'Not set';
   };
 
-  $scope.checkName = function(data, id) {
-    if (id === 2 && data !== 'awesome') {
-      return "Username 2 should be `awesome`";
-    }
-  };
-
-  $scope.saveUser = function(data, id) {
+  $scope.saveUser = function(data, id, pk, nn, uq, ai) {
     //$scope.user not updated yet
-    angular.extend(data, {id: id});
-    return $http.post('/saveUser', data);
+    angular.extend(data, {id: id},{pk: pk}, {nn: nn}, {uq: uq}, {ai: ai});
+	//console.log($scope.tblName);
+	//console.log(data);
   };
 
   // remove user
@@ -67,9 +68,63 @@ $scope.users = [
     $scope.inserted = {
       id: $scope.users.length+1,
       name: '',
-      status: null,
-      group: null 
+      datatype: null,
+      pk: false ,
+	  nn : false,
+	  uq : false,
+	  ai :false
     };
     $scope.users.push($scope.inserted);
+  };
+  
+  
+  
+  $scope.createTable = function(){
+	var i=0;
+	var fld = [];
+	for(i=0; i<$scope.users.length; i++){
+		var feild = {
+		  "feild_name": $scope.users[i].name,
+          "data_type": $scope.users[i].datatype,
+          "primary_key": $scope.users[i].pk,
+          "auto_incriment": $scope.users[i].ai,
+          "not_null": $scope.users[i].nn,
+          "unique": $scope.users[i].uq
+		  };
+		fld[i] = feild;
+	};
+	
+	var output = {
+	"db_name":$scope.selected,
+	"table_detail":{
+		 "table_name": $scope.tblName,
+		  "fileds": fld
+	}
+	};
+		
+	$http({
+		  method: 'POST',
+		  url: 'http://localhost:8084/CodeMage/table',
+		  data : output
+		}).then(function successCallback(response) {
+			$scope.query = response.data.query;
+			swal(
+			  'Good Job!',
+			  'Database Table is successfully Created!',
+			  'success'
+			);
+			
+		}, function errorCallback(response) {
+			swal(
+			  'error!',
+			  'something wrong!',
+			  'error'
+			);
+		});
+	
+	
+
+	
+	
   };
 });

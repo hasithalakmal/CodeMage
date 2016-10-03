@@ -123,7 +123,7 @@ public class DQLQueryRunnerImpl implements DQLQueryRunner {
 
             result = result + "<td>Options</td></tr><tr ng-repeat=\"user in users\">" + tb + "<td style=\"white-space: nowrap\">\n"
                     + "<form editable-form name=\"rowform\" ng-show=\"rowform.$visible\" class=\"form-buttons form-inline\" shown=\"inserted == user\">\n"
-                    + "<button type=\"submit\" ng-disabled=\"rowform.$waiting\" class=\"btn btn-primary\" >save</button>\n"
+                    + "<button type=\"submit\" ng-disabled=\"rowform.$waiting\" class=\"btn btn-primary\" ng-click=\"saveUser($index)\">save</button>\n"
                     + "<button type=\"button\" ng-disabled=\"rowform.$waiting\" ng-click=\"rowform.$cancel()\" class=\"btn btn-default\">cancel</button>\n"
                     + "</form>\n"
                     + "<div class=\"buttons\" ng-show=\"!rowform.$visible\">\n"
@@ -131,6 +131,135 @@ public class DQLQueryRunnerImpl implements DQLQueryRunner {
                     + "<button class=\"btn btn-danger\" ng-click=\"removeUser($index)\">del</button>\n"
                     + "</div>  \n"
                     + "</td></tr></table><button class=\"btn btn-default\" ng-click=\"addUser()\">Add row</button><button  ng-click=\"insertData()\" class=\"btn btn-default\">Insert Data</button>";
+
+            System.out.println(result);
+            System.out.println("Database created successfully...");
+        } catch (SQLException | ClassNotFoundException se) {
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }//end finally try
+        }//end try
+
+        System.out.println(colomns);
+        return result;
+    }
+
+    @Override
+    public String selectDataForEditableTableUpdate(String dbName, String tblName, String query) {
+        String result = "<table class=\"table table-bordered table-hover table-condensed\"><tr style=\"font-weight: bold\">";
+        ArrayList colomns = new ArrayList();
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            System.out.println("Connecting to database...");
+            conn = (Connection) DriverManager.getConnection(DB_URL + dbName, USER, PASS);
+
+            //STEP 4: Execute a query
+            System.out.println("Creating database...");
+            stmt = (Statement) conn.createStatement();
+
+            DatabaseMetaData md = conn.getMetaData();
+            ResultSet rs = md.getColumns(null, null, tblName, null);
+
+            String tb = "";
+            int i = 0;
+            while (rs.next()) {
+                String col = rs.getString("COLUMN_NAME");
+                result = result + "<td>" + col + "</td>";
+                tb = tb + "<td><span editable-text=\"user.feild" + i + "\" e-form=\"rowform\" >{{ user.feild" + i + " || 'empty' }}</span></td>";
+                colomns.add(col);
+                i = i + 1;
+            }
+
+            result = result + "<td>Options</td></tr><tr ng-repeat=\"user in users\">" + tb + "<td style=\"white-space: nowrap\">\n"
+                    + "<form editable-form name=\"rowform\" ng-show=\"rowform.$visible\" class=\"form-buttons form-inline\" shown=\"inserted == user\">\n"
+                    + "<button type=\"submit\" ng-disabled=\"rowform.$waiting\" class=\"btn btn-primary\" ng-click=\"saveUser($index)\">save</button>\n"
+                    + "<button type=\"button\" ng-disabled=\"rowform.$waiting\" ng-click=\"rowform.$cancel()\" class=\"btn btn-default\">cancel</button>\n"
+                    + "</form>\n"
+                    + "<div class=\"buttons\" ng-show=\"!rowform.$visible\">\n"
+                    + "<button class=\"btn btn-primary\" ng-click=\"rowform.$show()\">edit</button>\n"
+                    + "<button class=\"btn btn-danger\" ng-click=\"removeUser($index)\">del</button>\n"
+                    + "</div>  \n"
+                    + "</td></tr></table><button  ng-click=\"insertData()\" class=\"btn btn-default\">Update Data</button>";
+
+            System.out.println(result);
+            System.out.println("Database created successfully...");
+        } catch (SQLException | ClassNotFoundException se) {
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }//end finally try
+        }//end try
+
+        System.out.println(colomns);
+        return result;
+    }
+
+    @Override
+    public String selectDataForEditableTableDelete(String dbName, String tblName, String query) {
+        String result = "<table class=\"table table-bordered table-hover table-condensed\"><tr style=\"font-weight: bold\">";
+        ArrayList colomns = new ArrayList();
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            System.out.println("Connecting to database...");
+            conn = (Connection) DriverManager.getConnection(DB_URL + dbName, USER, PASS);
+
+            //STEP 4: Execute a query
+            System.out.println("Creating database...");
+            stmt = (Statement) conn.createStatement();
+
+            DatabaseMetaData md = conn.getMetaData();
+            ResultSet rs = md.getColumns(null, null, tblName, null);
+
+            String tb = "";
+            int i = 0;
+            while (rs.next()) {
+                String col = rs.getString("COLUMN_NAME");
+                result = result + "<td>" + col + "</td>";
+                tb = tb + "<td><span editable-text=\"user.feild" + i + "\" e-form=\"rowform\" >{{ user.feild" + i + " || 'empty' }}</span></td>";
+                colomns.add(col);
+                i = i + 1;
+            }
+
+            result = result + "<td>Options</td></tr><tr ng-repeat=\"user in users\">" + tb + "<td style=\"white-space: nowrap\">\n"
+                    + "<form editable-form name=\"rowform\" ng-show=\"rowform.$visible\" class=\"form-buttons form-inline\" shown=\"inserted == user\">\n"
+                    + "<button type=\"submit\" ng-disabled=\"rowform.$waiting\" class=\"btn btn-primary\" ng-click=\"saveUser($index)\">save</button>\n"
+                    + "<button type=\"button\" ng-disabled=\"rowform.$waiting\" ng-click=\"rowform.$cancel()\" class=\"btn btn-default\">cancel</button>\n"
+                    + "</form>\n"
+                    + "<div class=\"buttons\" ng-show=\"!rowform.$visible\">\n"
+                    + "<button class=\"btn btn-danger\" ng-click=\"removeUser($index)\">del</button>\n"
+                    + "</div>  \n"
+                    + "</td></tr></table><button  ng-click=\"insertData()\" class=\"btn btn-default\">Delete Data</button>";
 
             System.out.println(result);
             System.out.println("Database created successfully...");

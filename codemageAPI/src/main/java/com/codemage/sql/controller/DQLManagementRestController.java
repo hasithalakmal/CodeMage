@@ -7,6 +7,7 @@ package com.codemage.sql.controller;
 
 import com.codemage.sql.javacode.DMLJava;
 import com.codemage.sql.query.DQLQueries;
+import com.codemage.sql.runner.DMLQueryRunner;
 import com.codemage.sql.runner.DQLQueryRunner;
 import com.codemage.sql.util.JsonStringGenarator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class DQLManagementRestController {
 
     @Autowired
     DQLQueryRunner DQLQueryRunner;
+    
+    @Autowired
+    DMLQueryRunner DMLQueryRunner;
 
     @Autowired
     JsonStringGenarator jsonStringGenarator;
@@ -45,6 +49,40 @@ public class DQLManagementRestController {
         javacode = jsonStringGenarator.javaToJSON(javacode);
         table = jsonStringGenarator.javaToJSON(table);
         query = "{\"msg\":\"success\",\"err\":\"false\",\"result\":\"" + res + "\",\"table\":\"" + table + "\",\"java\":\"" + javacode + "\",\"query\":\"" + query + "\"}";
+        return query;
+    }
+    
+    
+     @RequestMapping(value = "data-update/{dbName}/{tableName}", method = RequestMethod.GET, produces = "application/json")
+    public String getTableDataUpdate(@PathVariable String dbName, @PathVariable String tableName) {
+        String query = DQLQueries.selectAllData(tableName);
+        String res = DQLQueryRunner.selectData(dbName, query);
+        String table = DQLQueryRunner.selectDataForEditableTableUpdate(dbName, tableName, query);
+        String javacode = DMLJava.SelectData(query, dbName);
+        javacode = jsonStringGenarator.javaToJSON(javacode);
+        table = jsonStringGenarator.javaToJSON(table);
+        query = "{\"msg\":\"success\",\"err\":\"false\",\"result\":\"" + res + "\",\"table\":\"" + table + "\",\"java\":\"" + javacode + "\",\"query\":\"" + query + "\"}";
+        return query;
+    }
+    
+    
+    @RequestMapping(value = "data-delete/{dbName}/{tableName}", method = RequestMethod.GET, produces = "application/json")
+    public String getTableDataDelete(@PathVariable String dbName, @PathVariable String tableName) {
+        String query = DQLQueries.selectAllData(tableName);
+        String res = DQLQueryRunner.selectData(dbName, query);
+        String table = DQLQueryRunner.selectDataForEditableTableDelete(dbName, tableName, query);
+        String javacode = DMLJava.SelectData(query, dbName);
+        javacode = jsonStringGenarator.javaToJSON(javacode);
+        table = jsonStringGenarator.javaToJSON(table);
+        query = "{\"msg\":\"success\",\"err\":\"false\",\"result\":\"" + res + "\",\"table\":\"" + table + "\",\"java\":\"" + javacode + "\",\"query\":\"" + query + "\"}";
+        return query;
+    }
+    
+    @RequestMapping(value = "data-json/{dbName}/{tableName}", method = RequestMethod.GET, produces = "application/json")
+    public String getTableDataJSON(@PathVariable String dbName, @PathVariable String tableName) {
+        String query = DMLQueryRunner.getDataFromTable(dbName, tableName);
+        query = jsonStringGenarator.javaToJSON(query);
+        query = "{\"msg\":\"success\",\"err\":\"false\",\"query\":\"" + query + "\"}";
         return query;
     }
 

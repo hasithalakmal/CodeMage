@@ -72,7 +72,7 @@ public class DMLQueriesImpl implements DMLQueries {
         for (int i = 0; i < update_feilds.length(); i++) {
             JSONObject up_fld = update_feilds.getJSONObject(i);
             String val = "";
-            if (up_fld.getString("data_type").equals("varchar(45)") || up_fld.getString("data_type").equals("Date")) {
+            if (up_fld.getString("data_type").equals("varchar(45)") ||up_fld.getString("data_type").equals("VARCHAR") || up_fld.getString("data_type").equals("Date")) {
                 val = "'" + up_fld.getString("new_val") + "'";
             } else {
                 val = up_fld.getString("new_val");

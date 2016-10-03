@@ -1,6 +1,6 @@
 <pageheader pagename="View Table"></pageheader>
 
-<div class="conter-wrapper">                
+<div class="conter-wrapper" data-ng-init="init()">                
    <div class="row">
         <div class="col-sm-12">
 			<div class="panel panel-info" >
@@ -10,22 +10,10 @@
 					<div class="panel-body">
 						<form ng-submit="submit()">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Database Name</label>
-								<select class="form-control" >
-									  <option value="volvo">Volvo</option>
-									  <option value="saab">Saab</option>
-									  <option value="opel">Opel</option>
-									  <option value="audi">Audi</option>
-									</select>
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Table Name</label>
-								<select class="form-control" >
-									  <option value="volvo">Volvo</option>
-									  <option value="saab">Saab</option>
-									  <option value="opel">Opel</option>
-									  <option value="audi">Audi</option>
-									</select>
+								<label > Database Name</label><br>
+								<select class="form-group" ng-options="option for option in database_names_select" ng-model="selected">
+								  <option value="">---Please select---</option> <!-- not selected / blank option -->
+								</select>
 							</div>
 							<button  type="submit" class="btn btn-default">Submit</button>
 						</form>
@@ -45,19 +33,11 @@
 						<table class="table ">
 							<thead>
 								<tr>
-									<th>Name</th>
+									<th>Table Names</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td>John</td>
-								</tr>
-								<tr>
-									<td>Andy</td>
-								</tr>
-								<tr>
-									<td>Frank</td>
-								</tr>
+							<tbody ng-bind-html="table_name_table">
+								
 							</tbody>
 						</table>
 

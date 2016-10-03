@@ -92,33 +92,33 @@
                         <tr ng-repeat="user in rows | filter:filterUser">
                             <td ng-show='showField(1)'>
                                 <!-- editable username (text with validation) -->
-          <span  editable-text="user.field0" e-form="tableform" >
-            {{ user.field0 || 'empty' }}
-          </span>
-                            </td>
-                            <td ng-show='showField(2)' >
-                                <!-- editable username (text with validation) -->
-          <span editable-text="user.field1" e-form="tableform" >
-            {{ user.field1 || 'empty' }}
-          </span>
-                            </td>
-                            <td ng-show='showField(3)'>
-                                <!-- editable username (text with validation) -->
-          <span  editable-text="user.field2" e-form="tableform" >
-            {{ user.field2 || 'empty' }}
-          </span>
-                            </td>
-                            <td ng-show='showField(4)'>
-                                <!-- editable username (text with validation) -->
-          <span  editable-text="user.field3" e-form="tableform" >
-            {{ user.field3 || 'empty' }}
-          </span>
-                            </td>
-                            <td ng-show='showField(5)' >
-                                <!-- editable username (text with validation) -->
-          <span editable-text="user.field4" e-form="tableform" >
-            {{ user.field4 || 'empty' }}
-          </span>
+							  <span  editable-text="user.field0" e-form="tableform" >
+								{{ user.field0 || 'empty' }}
+							  </span>
+												</td>
+												<td ng-show='showField(2)' >
+													<!-- editable username (text with validation) -->
+							  <span editable-text="user.field1" e-form="tableform" >
+								{{ user.field1 || 'empty' }}
+							  </span>
+												</td>
+												<td ng-show='showField(3)'>
+													<!-- editable username (text with validation) -->
+							  <span  editable-text="user.field2" e-form="tableform" >
+								{{ user.field2 || 'empty' }}
+							  </span>
+												</td>
+												<td ng-show='showField(4)'>
+													<!-- editable username (text with validation) -->
+							  <span  editable-text="user.field3" e-form="tableform" >
+								{{ user.field3 || 'empty' }}
+							  </span>
+												</td>
+												<td ng-show='showField(5)' >
+													<!-- editable username (text with validation) -->
+							  <span editable-text="user.field4" e-form="tableform" >
+								{{ user.field4 || 'empty' }}
+							  </span>
                             </td>
 
                             <td><button type="button" ng-show="tableform.$visible" ng-click="deleteUser(user.id)" class="btn btn-danger pull-right">Del</button></td>

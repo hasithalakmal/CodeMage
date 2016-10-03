@@ -26,8 +26,8 @@ angular
     'gridshore.c3js.chart',
     'growlNotifications',
     'xeditable',
-
-
+	'ngSanitize',
+	'angular-bind-html-compile'
     ])
  .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 5;
