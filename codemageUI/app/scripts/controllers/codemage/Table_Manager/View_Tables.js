@@ -7,11 +7,15 @@
  * # MainCtrl
  * Controller of dashyAngular
  */
-angular.module('dashyAngular').controller('View_Tables', function ($scope, $http,  $sce) {
+angular.module('dashyAngular').controller('View_Tables', function ($scope, $http,  $sce, myservice) {
 
 	$scope.database_names_select = "";
 	$scope.table_name_table = "";
+	$scope.myservice = myservice;
+	
 	  $scope.init  = function() {
+			console.log($scope.myservice.dbname);
+			
 			$http({
 			  method: 'GET',
 			  url: 'http://localhost:8084/CodeMage/database/1'
@@ -30,6 +34,11 @@ angular.module('dashyAngular').controller('View_Tables', function ($scope, $http
 				  'error'
 				)
 			});
+			
+			if($scope.myservice.dbname != 'empty'){
+				$scope.selected = $scope.myservice.dbname;
+				$scope.submit();
+			}
 		};
 		
 		

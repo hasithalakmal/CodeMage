@@ -13,5 +13,10 @@ public interface DQLQueries {
 
     String selectAllData(String tableName);
 
-    
+    String selectQueryData(String tableName, String condition);
+
+    String getFeildData(String FeildName, String data_type, String input, String operator, String value);
+
+    String getOperator(String operator);
+
 }

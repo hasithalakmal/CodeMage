@@ -33,6 +33,10 @@ angular
     cfpLoadingBarProvider.latencyThreshold = 5;
       cfpLoadingBarProvider.includeSpinner = false;
   }])
+  .config(['$compileProvider',
+    function ($compileProvider) {
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
+}])
 .config(function($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.when('/dashboard', '/dashboard/home');
@@ -66,7 +70,8 @@ angular
     .state('home', {
         url: '/home',
         parent: 'dashboard',
-        templateUrl: 'views/pages/dashboard/home.html?v='+window.app_version,
+        templateUrl: 'views/pages/dashboard/malu/home.html?v='+window.app_version,
+		controller: 'home'
     })
     .state('reports', {
         url: '/reports',
@@ -263,6 +268,48 @@ angular
 	
 	
 	
+	.state('add_boundary', {
+        url: '/malu/add_boundary',
+        parent: 'dashboard',
+        templateUrl: 'views/pages/dashboard/malu/add_boundary.html?v='+window.app_version,
+        controller: 'add_boundary'
+    })
+	.state('view_boundary', {
+        url: '/malu/view_boundary',
+        parent: 'dashboard',
+        templateUrl: 'views/pages/dashboard/malu/view_boundary.html?v='+window.app_version,
+        controller: 'view_boundary'
+    })
+	.state('create_rule', {
+        url: '/malu/create_rule',
+        parent: 'dashboard',
+        templateUrl: 'views/pages/dashboard/malu/create_rule.html?v='+window.app_version,
+        controller: 'create_rule'
+    })
+	.state('execute_rule', {
+        url: '/malu/execute_rule',
+        parent: 'dashboard',
+        templateUrl: 'views/pages/dashboard/malu/execute_rule.html?v='+window.app_version,
+        controller: 'execute_rule'
+    })
+	.state('alert_priority', {
+        url: '/malu/alert_priority',
+        parent: 'dashboard',
+        templateUrl: 'views/pages/dashboard/malu/alert_priority.html?v='+window.app_version,
+        controller: 'alert_priority'
+    })
+	.state('View_All_Suspected_Vesssel', {
+        url: '/malu/View_All_Suspected_Vesssel',
+        parent: 'dashboard',
+        templateUrl: 'views/pages/dashboard/malu/View_All_Suspected_Vesssel.html?v='+window.app_version,
+        controller: 'View_All_Suspected_Vesssel'
+    })
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -410,6 +457,9 @@ angular
 	
 
 })
+.service('myservice', function() {
+      this.dbname = "empty";
+    })
 .run(function(){
 
     var switchValue = JSON.parse(localStorage.getItem("switched"));

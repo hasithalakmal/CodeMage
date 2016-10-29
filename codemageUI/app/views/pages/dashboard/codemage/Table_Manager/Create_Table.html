@@ -1,6 +1,11 @@
 <pageheader pagename="Create Table"></pageheader>
 
-<div class="conter-wrapper" data-ng-init="init()">                
+<div class="conter-wrapper" data-ng-init="init()">
+	<div class="panel-body" ng-if="showGrowlWarning">
+		<alert ng-repeat="alert1 in alerts1" type="danger" close="closeAlert1($index)">
+			<pre style="background-color:#d57d6d">{{alert1.msg}}</pre>
+		</alert>
+	</div>
 	<div class="row">
         <div class="col-sm-12">
             <div class="panel panel-info" >
@@ -22,18 +27,19 @@
 										type="text" 
 										class="form-control" 
 										id="exampleInputName2"
+										ng-keyup="showQuery()"
 										ng-model="tblName"
 									/>
 						</div>
 						<div class="form-group">
 								<table class="table table-bordered table-hover table-condensed">
 									<tr style="font-weight: bold">
-										<td style="width:20%">Name</td>
+										<td style="width:20%" >Name</td>
 										<td style="width:15%">Data Type</td>
-										<td style="width:5%">PK</td>
-										<td style="width:5%">NN</td>
-										<td style="width:5%">UQ</td>
-										<td style="width:5%">AI</td>
+										<td style="width:5%" data-toggle="tooltip1" title="primary key">PK</td>
+										<td style="width:5%" data-toggle="tooltip1" title="not null">NN</td>
+										<td style="width:5%" data-toggle="tooltip1" title="unique key">UQ</td>
+										<td style="width:5%" data-toggle="tooltip1" title="auto incriment">AI</td>
 										<td style="width:25%">Edit</td>
 									</tr>
 									<tr ng-repeat="user in users">

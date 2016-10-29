@@ -30,6 +30,7 @@ E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\jav
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\query\DQLQueriesImpl.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\runner\DMLQueryRunner.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\aspect\LogingAspect.java
+E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\util\SqlExport.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\service\DatabasesService.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\util\API_keyGenarator.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\runner\DQLQueryRunnerImpl.java

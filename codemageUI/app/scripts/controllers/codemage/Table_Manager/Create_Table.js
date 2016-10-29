@@ -7,8 +7,24 @@
  * # MainCtrl
  * Controller of dashyAngular
  */
-angular.module('dashyAngular').controller('Create_Table', function ($scope, $filter, $http) {
+angular.module('dashyAngular').controller('Create_Table', function ($scope, $filter, $http) { 
+	$scope.errMsg ='';
+	$scope.alerts1 = [];
+	$scope.addAlert1 = function(){
+		$scope.alerts1 = [];
+		$scope.alerts1.push({type: 'danger',  msg: $scope.errMsg})
+	};
+    $scope.closeAlert1 = function(index) {
+        $scope.alerts1.splice(index, 1);
+    };
+
+
+
    $scope.users = []; 
+   
+   $scope.showQuery = function(){
+		$scope.query = "Create Table "+ $scope.tblName + "();";
+   };
 
    $scope.query = "Waiting For Query...";
   $scope.datatype = [
@@ -54,10 +70,41 @@ angular.module('dashyAngular').controller('Create_Table', function ($scope, $fil
   $scope.saveUser = function(data, id, pk, nn, uq, ai) {
     //$scope.user not updated yet
     angular.extend(data, {id: id},{pk: pk}, {nn: nn}, {uq: uq}, {ai: ai});
+	
 	//console.log($scope.tblName);
-	//console.log(data);
+	//console.log($scope.users);
   };
 
+ var feildCreator = function (){
+		//console.log($scope.users);
+		
+		var test = $scope.users;
+		
+		console.log(test[0]);
+		var val ='';
+		var i = 0;
+		for(i = 0; i < test.length-1 ;i++){
+			//console.log(test[i]);
+			val = val+' '+ test[i].name + ' ' + test[i].datatype;
+			if(test[i].pk==true){
+				val =val + ' PRIMARY KEY';
+			}
+			if(test[i].nn == true){
+				val =val + ' NOT NULL';
+			}
+			if(test[i].uq==true){
+				val =val + ' UNIQUE';
+			}
+			if(test[i].ai==true){
+				val =val + ' AUTO_INCREMENT';
+			}
+			val = val+',\n';
+
+		}
+		console.log(val);
+		return val;
+  };
+  
   // remove user
   $scope.removeUser = function(index) {
     $scope.users.splice(index, 1);
@@ -75,6 +122,8 @@ angular.module('dashyAngular').controller('Create_Table', function ($scope, $fil
 	  ai :false
     };
     $scope.users.push($scope.inserted);
+	$scope.query = "CREATE TABLE "+ $scope.tblName + "(\n"+ feildCreator() +"\n);";
+	
   };
   
   
@@ -107,13 +156,23 @@ angular.module('dashyAngular').controller('Create_Table', function ($scope, $fil
 		  url: 'http://localhost:8084/CodeMage/table',
 		  data : output
 		}).then(function successCallback(response) {
-			$scope.query = response.data.query;
-			swal(
-			  'Good Job!',
-			  'Database Table is successfully Created!',
-			  'success'
-			);
+			if(response.data.err == 'true'){
+				$scope.query = response.data.query;
+				$scope.errMsg =response.data.msg;
+				$scope.showGrowlWarning = true;
+				$scope.addAlert1();
+			}else{
 			
+				$scope.query = response.data.query;
+				swal(
+				  'Good Job!',
+				  'Database Table is successfully Created!',
+				  'success'
+				);
+				
+				$scope.errMsg ='';
+				$scope.showGrowlWarning = false;
+			}
 		}, function errorCallback(response) {
 			swal(
 			  'error!',

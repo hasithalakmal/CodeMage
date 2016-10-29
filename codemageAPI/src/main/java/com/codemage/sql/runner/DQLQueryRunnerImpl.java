@@ -5,7 +5,6 @@
  */
 package com.codemage.sql.runner;
 
-import static com.codemage.sql.runner.DatabaseRunnerImpl.DB_URL;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import java.sql.DatabaseMetaData;
@@ -14,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -123,14 +124,14 @@ public class DQLQueryRunnerImpl implements DQLQueryRunner {
 
             result = result + "<td>Options</td></tr><tr ng-repeat=\"user in users\">" + tb + "<td style=\"white-space: nowrap\">\n"
                     + "<form editable-form name=\"rowform\" ng-show=\"rowform.$visible\" class=\"form-buttons form-inline\" shown=\"inserted == user\">\n"
-                    + "<button type=\"submit\" ng-disabled=\"rowform.$waiting\" class=\"btn btn-primary\" ng-click=\"saveUser($index)\">save</button>\n"
+                    + "<button type=\"submit\" ng-disabled=\"rowform.$waiting\" class=\"btn btn-primary\" ng-click=\"saveUser($index);\">save</button>\n"
                     + "<button type=\"button\" ng-disabled=\"rowform.$waiting\" ng-click=\"rowform.$cancel()\" class=\"btn btn-default\">cancel</button>\n"
                     + "</form>\n"
                     + "<div class=\"buttons\" ng-show=\"!rowform.$visible\">\n"
                     + "<button class=\"btn btn-primary\" ng-click=\"rowform.$show()\">edit</button>\n"
                     + "<button class=\"btn btn-danger\" ng-click=\"removeUser($index)\">del</button>\n"
                     + "</div>  \n"
-                    + "</td></tr></table><button class=\"btn btn-default\" ng-click=\"addUser()\">Add row</button><button  ng-click=\"insertData()\" class=\"btn btn-default\">Insert Data</button>";
+                    + "</td></tr></table><button  ng-click=\"insertData()\" class=\"btn btn-default\">Insert Data</button>";
 
             System.out.println(result);
             System.out.println("Database created successfully...");
@@ -193,7 +194,6 @@ public class DQLQueryRunnerImpl implements DQLQueryRunner {
                     + "</form>\n"
                     + "<div class=\"buttons\" ng-show=\"!rowform.$visible\">\n"
                     + "<button class=\"btn btn-primary\" ng-click=\"rowform.$show()\">edit</button>\n"
-                    + "<button class=\"btn btn-danger\" ng-click=\"removeUser($index)\">del</button>\n"
                     + "</div>  \n"
                     + "</td></tr></table><button  ng-click=\"insertData()\" class=\"btn btn-default\">Update Data</button>";
 
@@ -257,7 +257,7 @@ public class DQLQueryRunnerImpl implements DQLQueryRunner {
                     + "<button type=\"button\" ng-disabled=\"rowform.$waiting\" ng-click=\"rowform.$cancel()\" class=\"btn btn-default\">cancel</button>\n"
                     + "</form>\n"
                     + "<div class=\"buttons\" ng-show=\"!rowform.$visible\">\n"
-                    + "<button class=\"btn btn-danger\" ng-click=\"removeUser($index)\">del</button>\n"
+                    + "<button class=\"btn btn-danger\" ng-click=\"removeUser($index)\">Select</button>\n"
                     + "</div>  \n"
                     + "</td></tr></table><button  ng-click=\"insertData()\" class=\"btn btn-default\">Delete Data</button>";
 
@@ -284,5 +284,64 @@ public class DQLQueryRunnerImpl implements DQLQueryRunner {
         return result;
     }
 
-    
+    @Override
+    public String selectDataForQueryTest(String dbName,  String query) {
+        String msg = "ok";
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            System.out.println("Connecting to database...");
+            conn = (Connection) DriverManager.getConnection(DB_URL + dbName, USER, PASS);
+
+            //STEP 4: Execute a query
+            System.out.println("Creating database...");
+            stmt = (Statement) conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery(query);
+
+            System.out.println("Database created successfully...");
+        } catch (SQLException se) {
+
+            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+            int count = 1;
+            while (se != null) {
+                int ecode = se.getErrorCode();
+                String sqlState = se.getSQLState();
+                String sqlMsg = se.getMessage();
+                System.out.println("SQLException " + count);
+                System.out.println("Code: " + ecode);
+                System.out.println("SqlState: " + sqlState);
+                System.out.println("Error Message: " + sqlMsg);
+                msg = msg + "SQLException " + count + "\nCode: " + ecode + "\nSqlState: " + sqlState + "\nError Message: " + sqlMsg + "\n\n\n";
+                se = se.getNextException();
+                count++;
+            }
+            System.out.println("___________________________________________________");
+
+            //msg = se.getLocalizedMessage();
+            //System.err.println("Error #####" + se.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DMLQueryRunnerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (stmt != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }
+        }
+        return msg;
+    }
+
 }

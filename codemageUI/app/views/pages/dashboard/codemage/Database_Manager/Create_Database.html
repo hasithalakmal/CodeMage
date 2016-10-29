@@ -1,13 +1,19 @@
 <pageheader pagename="Create Database"></pageheader>
 
-<div class="conter-wrapper">                
+<div class="conter-wrapper">
+	<div class="panel-body" ng-if="showGrowlWarning">
+			<alert ng-repeat="alert1 in alerts1" type="danger" close="closeAlert1($index)">
+				<pre  style="background-color:#d57d6d">{{alert1.msg}}</pre>
+			</alert>
+	</div>
    <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <div class="panel panel-info" >
 					<div class="panel-heading">
 						<h3 class="panel-title">Create Database </h3>
 					</div>
 					<div class="panel-body">
+					<div class="col-sm-12">
 						<form ng-submit= "submit();" >
 							<div class="form-group">
 								<label for="exampleInputEmail1">Database Name</label>
@@ -21,12 +27,21 @@
 									ng-keyup="showQuery()"
 								>
 							</div>
-							 <pre>{{query}}</pre>
 							<button  type="submit" class="btn btn-default">Submit</button>
 						</form>
+					</div>	
 					</div>
 			</div>
-			
+        </div>
+		<div class="col-sm-6">
+            <div class="panel panel-info" >
+					<div class="panel-heading">
+						<h3 class="panel-title">Create Database Query</h3>
+					</div>
+					<div class="panel-body">
+						<pre>{{query}}</pre>
+					</div>
+			</div>
         </div>
     </div>
 </div>

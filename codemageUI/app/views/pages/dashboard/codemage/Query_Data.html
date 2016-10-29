@@ -1,17 +1,127 @@
 <pageheader pagename="Query Data" subtitle=""></pageheader>
 
-<div class="conter-wrapper">                
+<div class="conter-wrapper" data-ng-init="init()"> 
+	<div class="panel-body" ng-show="showDiv">
+		<div >
+			<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
+				<pre>
+					{{alert.msg}}
+				</pre>
+			</alert>
+		</div>
+	</div>
+   	<div class="panel-body" ng-if="showGrowlWarning">
+		<alert ng-repeat="alert1 in alerts1" type="danger" close="closeAlert1($index)">
+			<pre style="background-color:#d57d6d">{{alert1.msg}}</pre>
+		</alert>
+	</div>
    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-primary">
+        <div class="col-sm-6">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Query Data</h3>
+                    <h3 class="panel-title">Select Database</h3>
                 </div>
-                <div class="panel-body">
-					<h1>Comming soon...</h1>
+                <div class="panel-body">                        
+						<div class="form-group">
+							<label for="exampleInputEmail1">Database Name</label>
+							<select class="form-group" ng-options="option for option in database_names_select" ng-model="selectedDB" ng-change="getTable()">
+								<option value="">---Please select---</option> <!-- not selected / blank option -->
+							</select>
+						</div>
                 </div>
             </div>
         </div>
+		<div class="col-sm-6">
+            <div class="panel panel-info" >
+                <div class="panel-heading">
+                    <h3 class="panel-title">View Query</h3>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-body" >
+						<pre>{{query}}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>	
+    </div>
+	<div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Select Table</h3>
+                </div>
+                <div class="panel-body">                        
+						<div class="form-group">
+							<label for="exampleInputEmail1">Table Name</label>
+							<select class="form-group" ng-options="option for option in table_names_select" ng-model="selectedTBL" ng-change="getColume()">
+								<option value="">---Please select---</option> <!-- not selected / blank option -->
+							</select>
+						</div>
+                </div>
+            </div>
+        </div>
+		<div class="col-sm-6">
+            <div class="panel panel-info" >
+                <div class="panel-heading">
+                    <h3 class="panel-title">Java Code </h3>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-body" >
+						<button ng-click="showDiv = !showDiv; showJavaCode();" class="btn">Show Java Code</button>
+                    </div>
+                </div>
+            </div>
+        </div>	
+    </div>
+	<div class="row">
+		<div class="col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Build Query</h3>
+                </div>
+                <div class="panel-body">                        
+					<form ng-submit="submit()">
+						<!-- roles fruits role fruitName-->
+						<div class="form-group">
+							<label for="exampleInputEmail1">Table Colume</label></br>
+							<label ng-repeat="role  in roles ">
+							  {{role}}  <input type="checkbox"  value="role" ng-checked ="selection.indexOf(role) > -1" ng-click="toggleSelection(role)">
+							</label>
+
+						</div>
+						<div id="builder-basic"></div>
+						<button  type="submit" id="btn-get" class="btn btn-success btn-rounded">Submit</button>
+					</form>
+                </div>
+            </div>
+        </div>
+		<div class="col-sm-12">
+			<div class="panel panel-info" >
+				<div class="panel-heading">
+					<h3 class="panel-title">Data Table </h3>
+				</div>
+				<div class="panel panel-primary">
+					<div class="panel-body" >
+						<table class="table ">
+							<thead ng-bind-html="table_heder">
+
+							</thead>
+							<tbody ng-bind-html="table_body">
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+    
+	
+	
+	
+
+    <div class="row">
+
     </div>
 </div>
   

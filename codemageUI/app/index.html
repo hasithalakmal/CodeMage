@@ -22,12 +22,14 @@
     <!-- endbower -->
     <!-- endbuild -->
 
+
     <link rel="stylesheet" href="styles/app-green.css" />
 	
 	
     
     <!-- build:js scripts/vendor.js -->
     <script src="../bower_components/jquery/dist/jquery.js"></script>
+
     <!-- bower:js -->
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
@@ -83,16 +85,15 @@
     <script src="../bower_components/moment/moment.js"></script>
     <script src="../bower_components/doT/doT.js"></script>
     <script src="../bower_components/jQuery-QueryBuilder/dist/js/query-builder.js"></script>
+    <script src="../bower_components/sql-parser/browser/sql-parser.js"></script>
     <!-- endbower -->
     <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-   <script src="../bower_components/angular-xeditable/dist/js/xeditable.js"></script> 
-  <!--  <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script> -->
+	<script src="../bower_components/angular-xeditable/dist/js/xeditable.js"></script> 
+	<script src="../bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_qWRq_TMvCsvVGEsYAAPM6yrQ7JOz2uQ&libraries=drawing&callback=initMap" async defer></script>
 
 
-
-
-
+	
 
 
 
@@ -142,15 +143,15 @@
 
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<script src="scripts/controllers/malu/add_boundary.js"></script>
+	<script src="scripts/controllers/malu/view_boundary.js"></script>
+	<script src="scripts/controllers/malu/create_rule.js"></script>
+	<script src="scripts/controllers/malu/execute_rule.js"></script>
+	<script src="scripts/controllers/malu/alert_priority.js"></script>
+	<script src="scripts/controllers/malu/View_All_Suspected_Vesssel.js"></script>
+	<script src="scripts/controllers/malu/home.js"></script>
+
+
 	
 	
     <script src ="views/pages/dashboard/database/blank.js"></script>
@@ -172,7 +173,6 @@
     <script src="scripts/directives/home-chart/home-chart.js"></script>
 
     <!-- endbuild -->
-
 
   </head>
 
@@ -200,8 +200,12 @@
     <!--[if lt IE 9]>
     <script src="../bower_components/es5-shim/es5-shim.js"></script>
     <script src="../bower_components/json3/lib/json3.js"></script>
+
     <![endif]-->
     <!-- endbuild -->
+
+
+
 
   </body>
 </html>

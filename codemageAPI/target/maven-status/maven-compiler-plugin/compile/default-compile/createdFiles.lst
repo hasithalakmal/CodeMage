@@ -16,6 +16,7 @@ com\codemage\sql\query\DMLQueriesImpl.class
 com\codemage\sql\runner\DQLQueryRunner.class
 com\codemage\sql\model\Databases.class
 com\codemage\sql\javacode\CodeMageExample1.class
+com\codemage\sql\util\SqlExport.class
 com\codemage\sql\service\DatabasesService.class
 com\codemage\sql\query\DQLQueriesImpl.class
 com\codemage\sql\configuration\AppInitializer.class

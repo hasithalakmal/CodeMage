@@ -11,7 +11,19 @@ angular.module('dashyAngular').controller('Create_Database', function ($scope,$h
 	//define variables
 	$scope.databasename = '';
 	$scope.query = 'waiting for query';
-	 
+	
+	
+	$scope.errMsg ='';
+	$scope.alerts1 = [];
+	$scope.addAlert1 = function(){
+		$scope.alerts1 = [];
+		$scope.alerts1.push({type: 'danger',  msg: $scope.errMsg})
+	};
+    $scope.closeAlert1 = function(index) {
+        $scope.alerts1.splice(index, 1);
+    };
+	
+	
 	 
 	//define methodes
     $scope.showQuery = function() {
@@ -28,8 +40,19 @@ angular.module('dashyAngular').controller('Create_Database', function ($scope,$h
 					"userid": 1
 				}
 		}).then(function successCallback(response) {
-			swal("Success!", "Database is Succesfully Created" , "success");
-			console.log(response);
+			if(response.data.err == 'true'){
+				$scope.errMsg =response.data.msg;
+				$scope.showGrowlWarning = true;
+				$scope.addAlert1();
+			}else{
+				swal("Success!", "Database is Succesfully Created" , "success");
+				$scope.databasename = '';
+				$scope.query = 'waiting for query';
+				console.log(response);
+				
+				$scope.errMsg ='';
+				$scope.showGrowlWarning = false;
+			}
 		  }, function errorCallback(response) {
 			swal(
 			  'error!',

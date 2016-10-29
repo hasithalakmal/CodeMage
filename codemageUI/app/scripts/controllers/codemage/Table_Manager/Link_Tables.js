@@ -8,6 +8,16 @@
  * Controller of dashyAngular
  */
 angular.module('dashyAngular').controller('Link_Tables', function ($scope, $http) {
+$scope.errMsg ='';
+	$scope.alerts1 = [];
+	$scope.addAlert1 = function(){
+		$scope.alerts1 = [];
+		$scope.alerts1.push({type: 'danger',  msg: $scope.errMsg})
+	};
+    $scope.closeAlert1 = function(index) {
+        $scope.alerts1.splice(index, 1);
+    };
+
  
  	var actions = ['cascade','set null','restrict','no action'];
 
@@ -111,6 +121,13 @@ angular.module('dashyAngular').controller('Link_Tables', function ($scope, $http
 		data : fk_data,
 		url: 'http://localhost:8084/CodeMage/table-fk'
 		}).then(function successCallback(response) {
+			if(response.data.err == 'true'){
+				$scope.query = response.data.query;
+				$scope.errMsg =response.data.msg;
+				$scope.showGrowlWarning = true;
+				$scope.addAlert1();
+			}else{
+			
 				$scope.query = response.data.query;
 				console.log(response.data.query);
 				swal(
@@ -119,6 +136,15 @@ angular.module('dashyAngular').controller('Link_Tables', function ($scope, $http
 				  'success'
 				)
 				$scope.getTable();
+				document.getElementById("myForm").reset();
+				
+				$scope.errMsg ='';
+				$scope.showGrowlWarning = false;
+			}
+		
+		
+		
+				
 		}, function errorCallback(response) {
 			swal(
 			  'error!',

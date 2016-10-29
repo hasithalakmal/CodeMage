@@ -8,6 +8,17 @@
  * Controller of dashyAngular
  */
 angular.module('dashyAngular' ).controller('Insert_Data', function ($scope, $filter, $http, $sce, $compile) {
+$scope.errMsg ='';
+	$scope.alerts1 = [];
+	$scope.addAlert1 = function(){
+		$scope.alerts1 = [];
+		$scope.alerts1.push({type: 'danger',  msg: $scope.errMsg})
+	};
+    $scope.closeAlert1 = function(index) {
+        $scope.alerts1.splice(index, 1);
+    };
+	
+	
 var feildname=[];
 $scope.dtypes=[];
 var length =0;
@@ -27,6 +38,19 @@ $scope.java ="Waiting For Java Code";
 
 $scope.inputFeild ="";
 
+
+$scope.alerts = [
+        { type: 'info', msg: $scope.java }
+    ];
+
+	$scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+    };
+	
+	$scope.showJavaCode = function(){
+		$scope.alerts = [];
+		$scope.alerts.push({ msg: $scope.java});
+	};
 	
 $scope.init  = function() {
 		$http({
@@ -354,9 +378,26 @@ $scope.insertData = function(){
 			  data : insertdataJson,
 			  url: 'http://localhost:8084/CodeMage/insert'
 			}).then(function successCallback(response) {
-				$scope.query = response.data.query;
-				$scope.java = response.data.java_code;
-				$scope.submit();
+					if(response.data.err == 'true'){
+					$scope.query = response.data.query;
+					$scope.errMsg =response.data.msg;
+					$scope.showGrowlWarning = true;
+					$scope.addAlert1();
+				}else{
+				
+					$scope.query = response.data.query;
+					$scope.java = response.data.java_code;
+					$scope.submit();
+					$scope.users = [ ];
+					$scope.addUser();
+					
+					$scope.errMsg ='';
+					$scope.showGrowlWarning = false;
+				}
+			
+			
+			
+				
 			}, function errorCallback(response) {
 				swal(
 				  'error!',

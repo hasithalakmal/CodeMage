@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -58,9 +60,29 @@ public class DMLQueryRunnerImpl implements DMLQueryRunner {
                 msg = "ok";
             }
             System.out.println("Inserted records into the table...");
-        } catch (SQLException | ClassNotFoundException se) {
-            msg = se.toString();
-            System.err.println("Error !!!!!!!!!!!!!!!!!!!" + se);
+        } catch (SQLException se) {
+
+            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+            int count = 1;
+            while (se != null) {
+                int ecode = se.getErrorCode();
+                String sqlState = se.getSQLState();
+                String sqlMsg = se.getMessage();
+                System.out.println("SQLException " + count);
+                System.out.println("Code: " + ecode);
+                System.out.println("SqlState: " + sqlState);
+                System.out.println("Error Message: " + sqlMsg);
+                msg = msg + "SQLException " + count + "\nCode: " + ecode + "\nSqlState: " + sqlState + "\nError Message: " + sqlMsg + "\n\n\n";
+                se = se.getNextException();
+                count++;
+            }
+            System.out.println("___________________________________________________");
+
+            //msg = se.getLocalizedMessage();
+            //System.err.println("Error #####" + se.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DMLQueryRunnerImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 if (stmt != null) {
@@ -79,7 +101,8 @@ public class DMLQueryRunnerImpl implements DMLQueryRunner {
     }
 
     @Override
-    public void updateData(String dbName, String query) {
+    public String updateData(String dbName, String query) {
+        String msg = "";
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -95,8 +118,36 @@ public class DMLQueryRunnerImpl implements DMLQueryRunner {
             System.out.println("Creating statement...");
             stmt = (Statement) conn.createStatement();
             String sql = query;
-            stmt.executeUpdate(sql);
-        } catch (SQLException | ClassNotFoundException se) {
+            int x = stmt.executeUpdate(sql);
+            if (x != 1) {
+                msg = stmt.getExceptionInterceptor().toString();
+                System.err.println("Error !!!!!!!!!!!!!!!!!!!" + msg);
+            } else {
+                msg = "ok";
+            }
+        } catch (SQLException se) {
+
+            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+            int count = 1;
+            while (se != null) {
+                int ecode = se.getErrorCode();
+                String sqlState = se.getSQLState();
+                String sqlMsg = se.getMessage();
+                System.out.println("SQLException " + count);
+                System.out.println("Code: " + ecode);
+                System.out.println("SqlState: " + sqlState);
+                System.out.println("Error Message: " + sqlMsg);
+                msg = msg + "SQLException " + count + "\nCode: " + ecode + "\nSqlState: " + sqlState + "\nError Message: " + sqlMsg + "\n\n\n";
+                se = se.getNextException();
+                count++;
+            }
+            System.out.println("___________________________________________________");
+
+            //msg = se.getLocalizedMessage();
+            //System.err.println("Error #####" + se.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DMLQueryRunnerImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             //finally block used to close resources
             try {
@@ -113,10 +164,13 @@ public class DMLQueryRunnerImpl implements DMLQueryRunner {
             }//end finally try
         }//end try
         System.out.println("Goodbye!");
+        
+        return msg;
     }
 
     @Override
-    public void deleteData(String dbName, String query) {
+    public String deleteData(String dbName, String query) {
+        String msg = "";
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -132,9 +186,43 @@ public class DMLQueryRunnerImpl implements DMLQueryRunner {
             System.out.println("Creating statement...");
             stmt = (Statement) conn.createStatement();
             String sql = query;
-            stmt.executeUpdate(sql);
+            int x = stmt.executeUpdate(sql);
+            
+            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            System.out.println(x);
+            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            
+            if (x != 1) {
+                msg = stmt.getExceptionInterceptor().toString();
+                System.err.println("Error !!!!!!!!!!!!!!!!!!!" + msg);
+            } else {
+                System.out.println("LLLLLL");
+                msg = "ok";
+            }
 
-        } catch (SQLException | ClassNotFoundException se) {
+        } catch (SQLException se) {
+
+            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+            int count = 1;
+            while (se != null) {
+                int ecode = se.getErrorCode();
+                String sqlState = se.getSQLState();
+                String sqlMsg = se.getMessage();
+                System.out.println("SQLException " + count);
+                System.out.println("Code: " + ecode);
+                System.out.println("SqlState: " + sqlState);
+                System.out.println("Error Message: " + sqlMsg);
+                msg = msg + "SQLException " + count + "\nCode: " + ecode + "\nSqlState: " + sqlState + "\nError Message: " + sqlMsg + "\n\n\n";
+                se = se.getNextException();
+                count++;
+            }
+            System.out.println("___________________________________________________");
+
+            //msg = se.getLocalizedMessage();
+            //System.err.println("Error #####" + se.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DMLQueryRunnerImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             //finally block used to close resources
             try {
@@ -151,10 +239,12 @@ public class DMLQueryRunnerImpl implements DMLQueryRunner {
             }//end finally try
         }//end try
         System.out.println("Goodbye!");
+        return msg;
     }
 
     @Override
     public String getDataFromTable(String dbName, String tableName) {
+        String msg = "ok";
         String result = "";
         ArrayList bigobj = new ArrayList();
         Connection conn = null;
@@ -196,8 +286,30 @@ public class DMLQueryRunnerImpl implements DMLQueryRunner {
 
             System.out.println("Inserted records into the table...");
 
-        } catch (SQLException | ClassNotFoundException se) {
-        } finally {
+        } catch (SQLException se) {
+
+            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+            int count = 1;
+            while (se != null) {
+                int ecode = se.getErrorCode();
+                String sqlState = se.getSQLState();
+                String sqlMsg = se.getMessage();
+                System.out.println("SQLException " + count);
+                System.out.println("Code: " + ecode);
+                System.out.println("SqlState: " + sqlState);
+                System.out.println("Error Message: " + sqlMsg);
+                msg = msg + "SQLException " + count + "\nCode: " + ecode + "\nSqlState: " + sqlState + "\nError Message: " + sqlMsg + "\n\n\n";
+                se = se.getNextException();
+                count++;
+            }
+            System.out.println("___________________________________________________");
+
+            //msg = se.getLocalizedMessage();
+            //System.err.println("Error #####" + se.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DMLQueryRunnerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
             //finally block used to close resources
             try {
                 if (stmt != null) {

@@ -5,15 +5,15 @@
  */
 package com.codemage.sql.runner;
 
-import static com.codemage.sql.runner.DQLQueryRunnerImpl.DB_URL;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,6 +33,7 @@ public class DatabaseRunnerImpl implements DatabaseRunner {
 
     @Override
     public String createDatabase(String dbName) {
+        String msg = "";
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -48,10 +49,38 @@ public class DatabaseRunnerImpl implements DatabaseRunner {
             stmt = (Statement) conn.createStatement();
 
             String sql = "CREATE DATABASE " + dbName;
-            stmt.executeUpdate(sql);
+            int x = stmt.executeUpdate(sql);
+            if (x != 1) {
+                msg = stmt.getExceptionInterceptor().toString();
+                System.err.println("Error !!!!!!!!!!!!!!!!!!!" + msg);
+            } else {
+                msg = "ok";
+            }
             System.out.println("Database created successfully...");
-        } catch (SQLException | ClassNotFoundException se) {
-        } finally {
+        } catch (SQLException se) {
+
+            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+            int count = 1;
+            while (se != null) {
+                int ecode = se.getErrorCode();
+                String sqlState = se.getSQLState();
+                String sqlMsg = se.getMessage();
+                System.out.println("SQLException " + count);
+                System.out.println("Code: " + ecode);
+                System.out.println("SqlState: " + sqlState);
+                System.out.println("Error Message: " + sqlMsg);
+                msg = msg + "SQLException " + count + "\nCode: " + ecode + "\nSqlState: " + sqlState + "\nError Message: " + sqlMsg + "\n\n\n";
+                se = se.getNextException();
+                count++;
+            }
+            System.out.println("___________________________________________________");
+
+            //msg = se.getLocalizedMessage();
+            //System.err.println("Error #####" + se.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DMLQueryRunnerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }  finally {
             //finally block used to close resources
             try {
                 if (stmt != null) {
@@ -68,7 +97,7 @@ public class DatabaseRunnerImpl implements DatabaseRunner {
         }//end try
         System.out.println("Goodbye!");
 
-        return "success";
+        return msg;
     }
 
     @Override
@@ -173,7 +202,8 @@ public class DatabaseRunnerImpl implements DatabaseRunner {
     }
 
     @Override
-    public void createTable(String query, String dbName) {
+    public String createTable(String query, String dbName) {
+        String msg = "";
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -191,11 +221,42 @@ public class DatabaseRunnerImpl implements DatabaseRunner {
             System.out.println(query);
             String sql = query;
 
-            stmt.executeUpdate(sql);
+            int x = stmt.executeUpdate(sql);
+            System.out.println("**************************************************************");
+            System.out.println(x);
+            System.out.println("**************************************************************");
+            
+            if (x != 0) {
+                msg = stmt.getExceptionInterceptor().toString();
+                System.err.println("Error !!!!!!!!!!!!!!!!!!!" + msg);
+            } else {
+                msg = "ok";
+            }
             System.out.println("Created table in given database...");
         } catch (SQLException se) {
-        } catch (ClassNotFoundException e) {
-        } finally {
+
+            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+            int count = 1;
+            while (se != null) {
+                int ecode = se.getErrorCode();
+                String sqlState = se.getSQLState();
+                String sqlMsg = se.getMessage();
+                System.out.println("SQLException " + count);
+                System.out.println("Code: " + ecode);
+                System.out.println("SqlState: " + sqlState);
+                System.out.println("Error Message: " + sqlMsg);
+                msg = msg + "SQLException " + count + "\nCode: " + ecode + "\nSqlState: " + sqlState + "\nError Message: " + sqlMsg + "\n\n\n";
+                se = se.getNextException();
+                count++;
+            }
+            System.out.println("___________________________________________________");
+
+            //msg = se.getLocalizedMessage();
+            //System.err.println("Error #####" + se.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DMLQueryRunnerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }   finally {
             //finally block used to close resources
             try {
                 if (stmt != null) {
@@ -211,6 +272,7 @@ public class DatabaseRunnerImpl implements DatabaseRunner {
             }//end finally try
         }//end try
         System.out.println("Goodbye!");
+        return msg;
     }
 
     @Override
@@ -254,7 +316,8 @@ public class DatabaseRunnerImpl implements DatabaseRunner {
     }
 
     @Override
-    public void addFK(String query, String dbName) {
+    public String addFK(String query, String dbName) {
+        String msg = "";
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -272,10 +335,37 @@ public class DatabaseRunnerImpl implements DatabaseRunner {
 
             String sql = query;
 
-            stmt.executeUpdate(sql);
+            int x = stmt.executeUpdate(sql);
+            if (x != 1) {
+                msg = stmt.getExceptionInterceptor().toString();
+                System.err.println("Error !!!!!!!!!!!!!!!!!!!" + msg);
+            } else {
+                msg = "ok";
+            }
             System.out.println("Table  deleted in given database...");
         } catch (SQLException se) {
-        } catch (ClassNotFoundException e) {
+
+            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+            int count = 1;
+            while (se != null) {
+                int ecode = se.getErrorCode();
+                String sqlState = se.getSQLState();
+                String sqlMsg = se.getMessage();
+                System.out.println("SQLException " + count);
+                System.out.println("Code: " + ecode);
+                System.out.println("SqlState: " + sqlState);
+                System.out.println("Error Message: " + sqlMsg);
+                msg = msg + "SQLException " + count + "\nCode: " + ecode + "\nSqlState: " + sqlState + "\nError Message: " + sqlMsg + "\n\n\n";
+                se = se.getNextException();
+                count++;
+            }
+            System.out.println("___________________________________________________");
+
+            //msg = se.getLocalizedMessage();
+            //System.err.println("Error #####" + se.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DMLQueryRunnerImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             //finally block used to close resources
             try {
@@ -292,6 +382,7 @@ public class DatabaseRunnerImpl implements DatabaseRunner {
             }//end finally try
         }//end try
         System.out.println("Goodbye!");
+        return msg;
     }
 
     @Override

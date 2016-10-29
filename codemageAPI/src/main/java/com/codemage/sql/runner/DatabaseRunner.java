@@ -25,11 +25,11 @@ public interface DatabaseRunner {
     
     void exportSQL(String dbName);
     
-    void createTable(String query,String dbName);
+    String createTable(String query,String dbName);
     
     void dropTable(String tableName,String dbName);
     
-    void addFK(String query,String dbName);
+    String addFK(String query,String dbName);
     
      ArrayList selectDataTypes(String dbName, String tblName);
           

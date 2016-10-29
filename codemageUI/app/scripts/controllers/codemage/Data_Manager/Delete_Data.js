@@ -8,6 +8,16 @@
  * Controller of dashyAngular
  */
 angular.module('dashyAngular').controller('Delete_Data', function ($scope, $filter, $http, $sce, $compile) {
+$scope.errMsg ='';
+	$scope.alerts1 = [];
+	$scope.addAlert1 = function(){
+		$scope.alerts1 = [];
+		$scope.alerts1.push({type: 'danger',  msg: $scope.errMsg})
+	};
+    $scope.closeAlert1 = function(index) {
+        $scope.alerts1.splice(index, 1);
+    };
+
  
   var feildname=[];
 $scope.dtypes=[];
@@ -27,9 +37,74 @@ $scope.input_tbl ="";
 $scope.addDataBtn = "";
 		
 $scope.query = "Waiting For Query";
-$scope.java ="Waiting For Java Code";
+$scope.java ="	/*STEP 1. Import required packages*/\n"
+                + "import java.sql.*;\n"
+                + "\n"
+                + "public class CodeMageExample {\n"
+                + "\n"
+                + "    /* JDBC driver name and database URL */\n"
+                + "    static final String JDBC_DRIVER = \"com.mysql.jdbc.Driver\";\n"
+                + "    static final String DB_URL = \"jdbc:mysql://localhost/db1\";\n"
+                + "\n"
+                + "    /*  Change Your Database credentials */\n"
+                + "    static final String USER = \"username\";\n"
+                + "    static final String PASS = \"password\";\n"
+                + "\n"
+                + "    public static void main(String[] args) {\n"
+                + "        Connection conn = null;\n"
+                + "        Statement stmt = null;\n"
+                + "        try {\n"
+                + "            /*STEP 2: Register JDBC driver */\n"
+                + "            Class.forName(\"com.mysql.jdbc.Driver\");\n"
+                + "\n"
+                + "            /* STEP 3: Open a connection */\n"
+                + "            System.out.println(\"Connecting to a selected database...\");\n"
+                + "            conn = DriverManager.getConnection(DB_URL, USER, PASS);\n"
+                + "            System.out.println(\"Connected database successfully...\");\n"
+                + "\n"
+                + "            /* STEP 4: Execute a query */\n"
+                + "            System.out.println(\"Deleteing records in the table...\");\n"
+                + "            stmt = conn.createStatement();\n"
+                + "\n"
+                + "            String sql = \"Enter Your Query \";\n"
+                + "            stmt.executeUpdate(sql);\n"
+                + "            System.out.println(\"Deleted records in the table...\");\n"
+                + "\n"
+                + "        } catch (SQLException | ClassNotFoundException se) {\n"
+                + "        } finally {\n"
+                + "            /* finally block used to close resources */\n"
+                + "            try {\n"
+                + "                if (stmt != null) {\n"
+                + "                    conn.close();\n"
+                + "                }\n"
+                + "            } catch (SQLException se) {\n"
+                + "            }\n"
+                + "            try {\n"
+                + "                if (conn != null) {\n"
+                + "                    conn.close();\n"
+                + "                }\n"
+                + "            } catch (SQLException se) {\n"
+                + "            }\n"
+                + "        }\n"
+                + "        System.out.println(\"Goodbye!\");\n"
+                + "    }\n"
+                + "}";
 
 $scope.inputFeild ="";
+
+
+$scope.alerts = [
+        { type: 'info', msg: $scope.java }
+    ];
+
+	$scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+    };
+	
+	$scope.showJavaCode = function(){
+		$scope.alerts = [];
+		$scope.alerts.push({ msg: $scope.java});
+	};
 
 	
 $scope.init  = function() {
@@ -380,13 +455,28 @@ $scope.insertData = function(){
 			  data : deleteJSON,
 			  url: 'http://localhost:8084/CodeMage/delete'
 			}).then(function successCallback(response) {
-				console.log(response.data);
-				console.log(response.data.java_code);
-				$scope.query = response.data.query;
-				$scope.java = response.data.java_code;
-				$scope.submit();
+				if(response.data.err == 'true'){
+					$scope.query = response.data.query;
+					$scope.errMsg =response.data.msg;
+					$scope.showGrowlWarning = true;
+					$scope.addAlert1();
+				}else{
+				
+					console.log(response.data);
+					console.log(response.data.java_code);
+					$scope.query = response.data.query;
+					$scope.java = response.data.java_code;
+					$scope.submit();
+					
+					
+					$scope.errMsg ='';
+					$scope.showGrowlWarning = false;
+				}
+			
+			
 				
 			}, function errorCallback(response) {
+				console.log(response);
 				swal(
 				  'error!',
 				  'something wrong! massa',

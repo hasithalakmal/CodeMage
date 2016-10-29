@@ -18,5 +18,7 @@ public interface DQLQueryRunner {
     String selectDataForEditableTableUpdate(String dbName, String tblName, String query);
     
    String selectDataForEditableTableDelete(String dbName, String tblName, String query);
+   
+   String selectDataForQueryTest(String dbName,  String query);
           
 }

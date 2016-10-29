@@ -1,14 +1,19 @@
 <pageheader pagename="Link Table"></pageheader>
 
-<div class="conter-wrapper" data-ng-init="init()">                
+<div class="conter-wrapper" data-ng-init="init()">
+	<div class="panel-body" ng-if="showGrowlWarning">
+			<alert ng-repeat="alert1 in alerts1" type="danger" close="closeAlert1($index)">
+				<pre style="background-color:#d57d6d">{{alert1.msg}}</pre>
+			</alert>
+	</div>
    <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
 			<div class="panel panel-info" >
 					<div class="panel-heading">
 						<h3 class="panel-title">Link Tables</h3>
 					</div>
 					<div class="panel-body">
-						<form ng-submit="submit()">
+						<form ng-submit="submit()" id="myForm">
 							<div class="form-group">
 									<label for="exampleInputEmail1">FK Name</label>
 									<input type="text" ng-model="FK_name">
@@ -62,9 +67,8 @@
 			</div>
             
         </div>
-    </div>
-	<div class="row">
-        <div class="col-sm-12">
+
+        <div class="col-sm-6">
             <div class="panel panel-info" >
                 <div class="panel-heading">
                     <h3 class="panel-title">Link Table Query</h3>
