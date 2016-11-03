@@ -12,6 +12,16 @@ angular.module('dashyAngular').controller('Create_Table', function ($scope, $fil
 	$scope.alerts1 = [];
 	$scope.addAlert1 = function(){
 		$scope.alerts1 = [];
+		
+		//this is the part for custom error message
+		var reeString = $scope.errMsg;
+		if(reeString.includes("1050")){
+			$scope.errMsg = reeString+ "your table is alredy exist. pleace don't do itxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+		} else if (reeString.includes("1064")){
+			$scope.errMsg = reeString+ "You should put valid table name. pleace don't do itxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+		}
+		//end of the custom err msg
+		
 		$scope.alerts1.push({type: 'danger',  msg: $scope.errMsg})
 	};
     $scope.closeAlert1 = function(index) {

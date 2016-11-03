@@ -17,6 +17,16 @@ angular.module('dashyAngular').controller('Create_Database', function ($scope,$h
 	$scope.alerts1 = [];
 	$scope.addAlert1 = function(){
 		$scope.alerts1 = [];
+		
+		//this is the part for custom error message
+		var reeString = $scope.errMsg;
+		if(reeString.includes("1007")){
+			$scope.errMsg = reeString+ "your databse server has samebd. pleace don't do itxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+		} else if (reeString.includes("1064")){
+			$scope.errMsg = reeString+ "You should put valid database name. pleace don't do itxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+		}
+		//end of the custom err msg
+		
 		$scope.alerts1.push({type: 'danger',  msg: $scope.errMsg})
 	};
     $scope.closeAlert1 = function(index) {
@@ -42,6 +52,7 @@ angular.module('dashyAngular').controller('Create_Database', function ($scope,$h
 		}).then(function successCallback(response) {
 			if(response.data.err == 'true'){
 				$scope.errMsg =response.data.msg;
+				console.log(response.data);
 				$scope.showGrowlWarning = true;
 				$scope.addAlert1();
 			}else{
@@ -49,7 +60,6 @@ angular.module('dashyAngular').controller('Create_Database', function ($scope,$h
 				$scope.databasename = '';
 				$scope.query = 'waiting for query';
 				console.log(response);
-				
 				$scope.errMsg ='';
 				$scope.showGrowlWarning = false;
 			}
