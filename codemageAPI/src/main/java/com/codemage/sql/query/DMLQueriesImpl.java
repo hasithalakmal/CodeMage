@@ -44,7 +44,17 @@ public class DMLQueriesImpl implements DMLQueries {
             if (data_types.getString(i).equals("varchar(45)")||data_types.getString(i).equals("VARCHAR")  || data_types.getString(i).equals("Date")) {
                 val = "'" + data_value.getString(i) + "'";
             } else {
-                val = data_value.getString(i);
+                System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+                System.out.println(data_value.get(i));
+                System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+                if(data_value.get(i).equals(null)){
+                    System.out.println("Nul detected");
+                    val = null;
+                }else{
+                    System.out.println("Not Nul detected");
+                 val = data_value.getString(i);
+                }
+               
             }
 
             if (feild_names.length() - 1 == i) {

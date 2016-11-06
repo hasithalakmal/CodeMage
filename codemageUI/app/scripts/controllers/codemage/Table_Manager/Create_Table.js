@@ -158,8 +158,12 @@ angular.module('dashyAngular').controller('Create_Table', function ($scope, $fil
 	"table_detail":{
 		 "table_name": $scope.tblName,
 		  "fileds": fld
-	}
+	},
+	"increment":$scope.incrementFrom
+	
 	};
+	
+	console.log(output);
 		
 	$http({
 		  method: 'POST',

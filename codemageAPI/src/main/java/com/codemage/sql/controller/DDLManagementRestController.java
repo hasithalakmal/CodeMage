@@ -106,16 +106,28 @@ public class DDLManagementRestController {
         JSONObject jsonObj = new JSONObject(tableJSON);
         String dbName = jsonObj.getString("db_name");
         String table = jsonObj.getJSONObject("table_detail").toString();
+        JSONObject tobj = jsonObj.getJSONObject("table_detail");
+        String tname = tobj.getString("table_name");
+        int ai = jsonObj.getInt("increment");
+        String aiq = "ALTER TABLE "+tname+" AUTO_INCREMENT = "+ai+";";
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>  "+ aiq);
         String query = tableDDL.createTable(table);
         String runningState = databaseRunner.createTable(query, dbName);
+        String runningState2 = databaseRunner.createTable(aiq, dbName);
         query = jsonStringGenarator.chanageToJSON(query);
         String err = "false";
         String msg = "success";
         runningState = jsonStringGenarator.javaToJSON(runningState);
+        runningState2 = jsonStringGenarator.javaToJSON(runningState2);
         if (!"ok".equals(runningState)) {
             err = "true";
             msg = runningState;
         }
+        if (!"ok".equals(runningState2)) {
+            err = "true";
+            msg = runningState2;
+        }
+        
         query = "{\"msg\":\"" + msg + "\",\"err\":\"" + err + "\",\"query\":\"" + query + "\"}";
         return query;
     }

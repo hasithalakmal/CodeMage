@@ -4,6 +4,7 @@ E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\dao
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\runner\DatabaseRunnerImpl.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\util\PasswordHasher.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\dao\DatabasesDao.java
+E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\util\MyFileReader.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\query\DatabaseDDL.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\query\DQLQueries.java
 E:\Smile24\Projects\0003 -SQL\GIT\codemageAPI\src\main\java\com\codemage\sql\controller\DMLManagementRestController.java

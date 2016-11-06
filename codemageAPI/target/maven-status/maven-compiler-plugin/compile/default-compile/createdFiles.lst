@@ -2,6 +2,7 @@ com\codemage\sql\dao\AbstractDao.class
 com\codemage\sql\query\DQLQueries.class
 com\codemage\sql\runner\DMLQueryRunner.class
 com\codemage\sql\util\PasswordHasher.class
+com\codemage\sql\util\MyFileReader.class
 com\codemage\sql\aspect\LogingAspect.class
 com\codemage\sql\javacode\CodeMageExample.class
 com\codemage\sql\controller\DDLManagementRestController.class
