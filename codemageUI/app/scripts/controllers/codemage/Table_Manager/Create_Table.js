@@ -10,6 +10,7 @@
 angular.module('dashyAngular').controller('Create_Table', function ($scope, $filter, $http) { 
 	$scope.errMsg ='';
 	$scope.alerts1 = [];
+	$scope.incrementFrom = 0;
 	$scope.addAlert1 = function(){
 		$scope.alerts1 = [];
 		
